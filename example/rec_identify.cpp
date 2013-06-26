@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
     if (!curl) 
         return 0;
 
-    url = SERVER + std::string("v2/detection/detect?url=") + img_url + 
-          "&api_secret=" + API_SECRET + "&api_key=" + API_KEY;
+    url = SERVER + std::string("v2/recognition/identify?url=") + img_url + 
+          "&api_secret=" + API_SECRET + "&api_key=" + API_KEY + "&group_name=test5";
     std::cout << url << std::endl;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);

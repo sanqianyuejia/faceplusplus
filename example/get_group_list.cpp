@@ -32,15 +32,14 @@ int main(int argc, char* argv[])
     CURL *curl;
     CURLcode res;
     std::string url;
-    std::string img_url = "http://facerec.b0.upaiyun.com/face/zx.png";
  
     curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
     if (!curl) 
         return 0;
 
-    url = SERVER + std::string("v2/detection/detect?url=") + img_url + 
-          "&api_secret=" + API_SECRET + "&api_key=" + API_KEY;
+    url = SERVER + std::string("v2/info/get_group_list") + 
+          "?api_secret=" + API_SECRET + "&api_key=" + API_KEY;
     std::cout << url << std::endl;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
