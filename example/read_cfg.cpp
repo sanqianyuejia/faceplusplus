@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                       
- *               2013 Zhai Xiang                                         
+ * Copyright (C) 2013 Deepin, Inc.                                                 
+ *               2013 Zhai Xiang                                                   
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -19,35 +19,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#include <iostream>
-#include <string>
-#include <curl/curl.h>
+#include <fstream>
+#include "read_cfg.h"
 
-#define SERVER "http://api.cn.faceplusplus.com/"
-#define API_KEY ""
-#define API_SECRET ""
+static std::map<std::string, std::string> m_options;
 
-int main(int argc, char* argv[]) 
+static void m_parse(std::ifstream & cfgfile)
 {
-    CURL *curl;
-    CURLcode res;
-    std::string url;
- 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (!curl) 
-        return 0;
+    std::string id, eq, value;
 
-    url = SERVER + std::string("v2/person/get_info?api_secret=") + API_SECRET + 
-          "&api_key=" + API_KEY + "&person_id=8da94ae454b212de7b0c2e269e2c9d14";
-    std::cout << url << std::endl;
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-    res = curl_easy_perform(curl);
-    
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
+    while (cfgfile >> id >> eq >> value)
+    {
+        if (id[0] == '#') 
+            continue;  // skip comments
+        if (eq != "=") 
+            throw std::string("Parse error");
 
-    return 0;
+        m_options[id] = value;
+    }
+}
+
+std::map<std::string, std::string> get_options() 
+{
+    std::ifstream cfgfile("apikey.cfg");
+    m_parse(cfgfile);
+    return m_options;
 }

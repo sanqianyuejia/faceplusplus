@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                       
- *               2013 Zhai Xiang                                         
+ * Copyright (C) 2013 Deepin, Inc.                                                 
+ *               2013 Zhai Xiang                                                   
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -19,35 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#include <iostream>
+#ifndef READ_CFG_H
+#define READ_CFG_H
+
 #include <string>
-#include <curl/curl.h>
+#include <map>
 
-#define SERVER "http://api.cn.faceplusplus.com/"
-#define API_KEY ""
-#define API_SECRET ""
+std::map<std::string, std::string> get_options();
 
-int main(int argc, char* argv[]) 
-{
-    CURL *curl;
-    CURLcode res;
-    std::string url;
- 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (!curl) 
-        return 0;
-
-    url = SERVER + std::string("v2/person/get_info?api_secret=") + API_SECRET + 
-          "&api_key=" + API_KEY + "&person_id=8da94ae454b212de7b0c2e269e2c9d14";
-    std::cout << url << std::endl;
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-    res = curl_easy_perform(curl);
-    
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
-
-    return 0;
-}
+#endif // READ_CFG_H

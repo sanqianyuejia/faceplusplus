@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                       
- *               2013 Zhai Xiang                                         
+ * Copyright (C) 2013 Deepin, Inc.                                                 
+ *               2013 Zhai Xiang                                                   
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -20,34 +20,19 @@
  */
 
 #include <iostream>
-#include <string>
-#include <curl/curl.h>
-
-#define SERVER "http://api.cn.faceplusplus.com/"
-#define API_KEY ""
-#define API_SECRET ""
+#include "read_cfg.h"
 
 int main(int argc, char* argv[]) 
 {
-    CURL *curl;
-    CURLcode res;
-    std::string url;
- 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (!curl) 
-        return 0;
-
-    url = SERVER + std::string("v2/person/get_info?api_secret=") + API_SECRET + 
-          "&api_key=" + API_KEY + "&person_id=8da94ae454b212de7b0c2e269e2c9d14";
-    std::cout << url << std::endl;
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-    res = curl_easy_perform(curl);
-    
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
+    try 
+    {
+        std::map<std::string, std::string> options = get_options();
+        std::cout << "API_KEY=" << options["API_KEY"] << std::endl;
+    } 
+    catch (std::string ex) 
+    {
+        std::cout << ex << std::endl;
+    }
 
     return 0;
 }

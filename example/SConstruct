@@ -1,6 +1,7 @@
 env = Environment(CCFLAGS='-g')
 env.ParseConfig('pkg-config --cflags --libs libcurl')
 
+env.Program('test_read_cfg', ['test_read_cfg.cpp', 'read_cfg.cpp'])
 env.Program('detect.cpp')
 env.Program('get_group_list.cpp')
 env.Program('get_person_info.cpp')
