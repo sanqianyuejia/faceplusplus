@@ -22,15 +22,13 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
-
-#define SERVER "http://api.cn.faceplusplus.com/"
-#define API_KEY ""
-#define API_SECRET ""
+#include "read_cfg.h"
 
 int main(int argc, char* argv[]) 
 {
     CURL *curl;
     CURLcode res;
+    std::map<std::string, std::string> options;
     std::string url;
  
     curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -38,8 +36,11 @@ int main(int argc, char* argv[])
     if (!curl) 
         return 0;
 
-    url = SERVER + std::string("v2/info/get_face?api_secret=") + API_SECRET + 
-          "&face_id=8c1b482e63c706236d229ade315ef8c5&api_key=" + API_KEY;
+    options = get_options();
+    url = options["SERVER"] + std::string("v2/info/get_face?api_secret=") + 
+          options["API_SECRET"] + 
+          "&face_id=8c1b482e63c706236d229ade315ef8c5&api_key=" + 
+          options["API_KEY"];
     std::cout << url << std::endl;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
