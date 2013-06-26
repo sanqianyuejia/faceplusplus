@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
     {
         std::map<std::string, std::string> options = get_options();
         std::cout << "API_KEY=" << options["API_KEY"] << std::endl;
+        std::cout << "API_SECRET=" << options["API_SECRET"] << std::endl;
     } 
     catch (std::string ex) 
     {

@@ -31,9 +31,9 @@ static void m_parse(std::ifstream & cfgfile)
     while (cfgfile >> id >> eq >> value)
     {
         if (id[0] == '#') 
-            continue;  // skip comments
+            continue;
         if (eq != "=") 
-            throw std::string("Parse error");
+            continue;
 
         m_options[id] = value;
     }
