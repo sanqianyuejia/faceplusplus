@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <json/json.h>
 
 int main(int argc, char* argv[]) 
@@ -30,12 +31,15 @@ int main(int argc, char* argv[])
     std::string buffer;
     Json::Value root;
     Json::Reader reader;
-    Json::Value array;
+    Json::Value faces;
+    Json::Value face_id;
     
-    getline(jsonfile, buffer, char(-1));
-    std::cout << buffer << std::endl;
+    std::getline(jsonfile, buffer, (char)EOF);
+    //std::cout << buffer << std::endl;
     reader.parse(buffer, root, false);
-    array = root["face"];
-    std::cout << array << std::endl;
+    faces = root["face"];
+    std::cout << "faces size: " << faces.size() << std::endl;
+    face_id = faces[0]["face_id"];
+    std::cout << "face id: " << face_id << std::endl;
     return 0;
 }
