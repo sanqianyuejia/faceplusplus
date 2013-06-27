@@ -24,6 +24,33 @@
 #include <curl/curl.h>
 #include "read_cfg.h"
 
+class chunk
+{ 
+public:
+    static size_t handle(char* data, size_t size, size_t nmemb, void* p);
+    std::string get_content();
+
+private:
+    std::string m_content;
+    size_t m_handle_impl(char* data, size_t size, size_t nmemb);
+};
+
+size_t chunk::handle(char* data, size_t size, size_t nmemb, void* p)
+{
+    return static_cast<chunk*>(p)->m_handle_impl(data, size, nmemb);
+}
+
+size_t chunk::m_handle_impl(char* data, size_t size, size_t nmemb)
+{
+    m_content.append(data, size * nmemb);
+    return size * nmemb;
+}
+
+std::string chunk::get_content() 
+{
+    return m_content;
+}
+
 int main(int argc, char* argv[]) 
 {
     CURL *curl;
@@ -31,6 +58,7 @@ int main(int argc, char* argv[])
     std::string url;
     std::string img_url = "http://facerec.b0.upaiyun.com/face/zx.png";
     std::map<std::string, std::string> options = get_options();
+    chunk c;
  
     curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
@@ -44,10 +72,14 @@ int main(int argc, char* argv[])
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &c);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &chunk::handle);
     res = curl_easy_perform(curl);
     
     curl_easy_cleanup(curl);
     curl_global_cleanup();
+
+    std::cout << c.get_content() << std::endl;
 
     return 0;
 }
