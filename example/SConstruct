@@ -3,6 +3,7 @@ env.ParseConfig('pkg-config --cflags --libs libcurl')
 
 env.Program('test_read_cfg', ['test_read_cfg.cpp', 'read_cfg.cpp'])
 env.Program('get_http', ['get_http.cpp', 'read_cfg.cpp'])
+env.Program('test_jsoncpp.cpp', CPPPATH=['/usr/include/jsoncpp/'],  LIBS=['libjsoncpp'])
 env.Program('detect', ['detect.cpp', 'read_cfg.cpp'])
 env.Program('get_group_list.cpp')
 env.Program('get_person_info.cpp')

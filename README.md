@@ -5,7 +5,7 @@ Face++ SDK in C++
 
 build
 ===========
-sudo apt-get install scons libcurl4-openssl-dev
+sudo apt-get install scons libcurl4-openssl-dev libjsoncpp-dev
 
 API key && secret
 =================
