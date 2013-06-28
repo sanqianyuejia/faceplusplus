@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                                 
- *               2013 Zhai Xiang                                                   
+ * Copyright (C) 2013 Deepin, Inc.                                       
+ *               2013 Zhai Xiang                                         
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -19,77 +19,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#ifndef DETECT_H
-#define DETECT_H
+#include <iostream>
+#include "detect.h"
 
-#include <string>
-#include <vector>
+int main(int argc, char* argv[]) 
+{
+    try 
+    {
+        fpp::detect detect("http://facerec.b0.upaiyun.com/face/zx.png", "../example/apikey.cfg");
+        std::vector<fpp::face_t> faces = detect.get_faces();
+        std::cout << "face count: " << detect.get_face_count() << std::endl;
+        fpp::face_t face = detect.get_face(1);
+        std::cout << "gender: " << face.attribute.gender.value << std::endl;
+        std::cout << "face id: " << face.face_id << std::endl;
+    } 
+    catch (std::string ex) 
+    {
+        std::cout << ex << std::endl;
+    }
 
-namespace fpp {
-
-typedef struct {
-    unsigned int range;
-    unsigned int value;
-} age_t;
-
-typedef struct {
-    float confidence;
-    std::string value;
-} gender_t;
-
-typedef struct {
-    float confidence;
-    std::string value;
-} race_t;
-
-typedef struct {
-    age_t age;
-    gender_t gender;
-    race_t race;
-    float smiling;
-} attribute_t;
-
-typedef struct {
-    float x;
-    float y;
-} point_t;
-
-typedef struct {
-    point_t center;
-    point_t eye_left;
-    point_t eye_right;
-    float height;
-    point_t mouth_left;
-    point_t mouth_right;
-    point_t nose;
-    float width;
-} position_t;
-
-typedef struct {
-    attribute_t attribute;
-    std::string face_id;
-    position_t position;
-} face_t;
-
-class detect {
-public:
-    detect(std::string url, std::string cfgfile);
-    ~detect();
-
-public:
-    std::vector<face_t> get_faces() const;
-    face_t get_face(unsigned int index);
-    unsigned int get_face_count() const;
-
-private:
-    std::vector<face_t> m_faces;
-    unsigned int m_img_height;
-    std::string m_img_id;
-    unsigned int m_img_width;
-    std::string m_session_id;
-    std::string m_url;
-};
-
+    return 0;
 }
-
-#endif /* DETECT_H */

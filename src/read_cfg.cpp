@@ -49,7 +49,10 @@ std::map<std::string, std::string> get_options(std::string filepath)
         std::ifstream cfgfile(filepath.c_str());
         m_parse(cfgfile);
     } 
-    catch (...) {}
+    catch (...) 
+    {
+        throw std::string("fail to parse cfg file");
+    }
     
     return m_options;
 }
