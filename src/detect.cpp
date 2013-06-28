@@ -87,7 +87,7 @@ std::vector<face_t> detect::get_faces() const
     return m_faces;
 }
 
-unsigned int detect::get_face_count() const 
+unsigned int detect::size() const 
 {
     return m_faces.size();
 }

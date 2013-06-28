@@ -79,7 +79,7 @@ public:
 public:
     std::vector<face_t> get_faces() const;
     face_t get_face(unsigned int index);
-    unsigned int get_face_count() const;
+    unsigned int size() const;
 
 private:
     std::vector<face_t> m_faces;

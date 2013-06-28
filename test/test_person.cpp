@@ -20,17 +20,22 @@
  */
 
 #include <iostream>
-#include "detect.h"
+#include "person.h"
 
 int main(int argc, char* argv[]) 
 {
     try 
     {
-        fpp::detect detect("http://facerec.b0.upaiyun.com/face/zx.png", "../example/apikey.cfg");
-        std::vector<fpp::face_t> faces = detect.get_faces();
-        fpp::face_t face = detect.get_face(1);
-        std::cout << "gender: " << face.attribute.gender.value << std::endl;
-        std::cout << "face id: " << face.face_id << std::endl;
+        fpp::person person_obj("../example/apikey.cfg");
+        std::vector<fpp::person_t> persons = person_obj.get_persons();
+        std::vector<fpp::person_t>::iterator iter;
+        for (iter = persons.begin(); iter != persons.end(); iter++) 
+        {
+            std::cout << (*iter).name << (*iter).id << std::endl;
+        }
+        fpp::person_t person = person_obj.get_person(1);
+        std::cout << "person name: " << person.name << std::endl;
+        std::cout << "person id: " << person.id << std::endl;
     } 
     catch (std::string ex) 
     {

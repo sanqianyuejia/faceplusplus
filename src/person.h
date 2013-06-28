@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                       
- *               2013 Zhai Xiang                                         
+ * Copyright (C) 2013 Deepin, Inc.                                                 
+ *               2013 Zhai Xiang                                                   
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -19,23 +19,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#include <iostream>
-#include "detect.h"
+#ifndef PERSON_H
+#define PERSON_H
 
-int main(int argc, char* argv[]) 
-{
-    try 
-    {
-        fpp::detect detect("http://facerec.b0.upaiyun.com/face/zx.png", "../example/apikey.cfg");
-        std::vector<fpp::face_t> faces = detect.get_faces();
-        fpp::face_t face = detect.get_face(1);
-        std::cout << "gender: " << face.attribute.gender.value << std::endl;
-        std::cout << "face id: " << face.face_id << std::endl;
-    } 
-    catch (std::string ex) 
-    {
-        std::cout << ex << std::endl;
-    }
+#include <string>
+#include <vector>
+#include "read_cfg.h"
 
-    return 0;
+namespace fpp {
+
+typedef struct {
+    std::string id;
+    std::string name;
+    std::string tag;
+} person_t;
+
+class person {
+public:
+    person(std::string cfgfile);
+    ~person();
+
+public:
+    std::vector<person_t> get_persons();
+    person_t get_person(unsigned int index);
+    unsigned int size() const;
+
+private:
+    std::map<std::string, std::string> m_options;
+    std::vector<person_t> m_persons;
+};
+
 }
+
+#endif /* PERSON_H */
