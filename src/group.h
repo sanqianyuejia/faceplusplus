@@ -1,6 +1,6 @@
 /*                                                                              
- * Copyright (C) 2013 Deepin, Inc.                                       
- *               2013 Zhai Xiang                                         
+ * Copyright (C) 2013 Deepin, Inc.                                                 
+ *               2013 Zhai Xiang                                                   
  *                                                                              
  * Author:     Zhai Xiang <zhaixiang@linuxdeepin.com>                           
  * Maintainer: Zhai Xiang <zhaixiang@linuxdeepin.com>                           
@@ -19,29 +19,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#include <iostream>
-#include "person.h"
+#ifndef GROUP_H
+#define GROUP_H
 
-int main(int argc, char* argv[]) 
-{
-    try 
-    {
-        fpp::person person_obj("../example/apikey.cfg");
-        person_obj.create("Deepin");
-        std::vector<fpp::person_t> persons = person_obj.get_persons();
-        std::vector<fpp::person_t>::iterator iter;
-        for (iter = persons.begin(); iter != persons.end(); iter++) 
-        {
-            std::cout << (*iter).name << (*iter).id << std::endl;
-        }
-        fpp::person_t p = person_obj.get_person(1);
-        std::cout << "person name: " << p.name << std::endl;
-        std::cout << "person id: " << p.id << std::endl;
-    } 
-    catch (std::string ex) 
-    {
-        std::cout << ex << std::endl;
-    }
+#include <string>
+#include <vector>
+#include "read_cfg.h"
 
-    return 0;
+namespace fpp {
+
+typedef struct {
+    std::string id;
+    std::string name;
+    std::string tag;
+} group_t;
+
+class group {
+public:
+    group(std::string cfgfile);
+    ~group();
+
+public:
+    std::vector<group_t> get_groups();
+    group_t get_group(unsigned int index);
+    unsigned int size() const;
+    void create(std::string name);
+    void create(std::string name, std::string tag);
+    void remove(std::string name);
+    void add_person(std::string group_name, std::string person_name);
+    void add_person(std::string group_name, 
+                    std::vector<std::string> person_names);
+
+private:
+    std::map<std::string, std::string> m_options;
+    std::vector<group_t> m_groups;
+};
+
 }
+
+#endif /* GROUP_H */

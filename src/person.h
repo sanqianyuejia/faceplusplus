@@ -43,6 +43,9 @@ public:
     std::vector<person_t> get_persons();
     person_t get_person(unsigned int index);
     unsigned int size() const;
+    void create(std::string name);
+    void create(std::string name, std::string tag);
+    void remove(std::string name);
 
 private:
     std::map<std::string, std::string> m_options;

@@ -21,12 +21,12 @@
 
 #include <iostream>
 #include <json/json.h>
-#include "person.h"
+#include "group.h"
 #include "http_get.h"
 
 namespace fpp {
 
-person::person(std::string cfgfile) 
+group::group(std::string cfgfile) 
 {
     try 
     {
@@ -38,76 +38,76 @@ person::person(std::string cfgfile)
     }
 }
 
-person::~person() { m_persons.clear(); }
+group::~group() { m_groups.clear(); }
 
-std::vector<person_t> person::get_persons()  
+std::vector<group_t> group::get_groups()  
 {
     try 
     {
         std::string json = http_get(m_options["SERVER"] +                         
                                     m_options["VERSION"] +                        
-                                    std::string("/info/get_person_list?api_secret=") + 
+                                    std::string("/info/get_group_list?api_secret=") + 
                                     m_options["API_SECRET"] +                     
                                     "&api_key=" +                               
                                     m_options["API_KEY"]);
         Json::Reader reader;                                                    
         Json::Value root;                                                       
-        Json::Value persons;                                                      
+        Json::Value groups;                                                      
         unsigned int i;                                                         
                                                                                 
         reader.parse(json, root, false);                                        
-        persons = root["person"];                                                   
-        for (i = 0; i < persons.size(); i++) 
+        groups = root["group"];                                                   
+        for (i = 0; i < groups.size(); i++) 
         {
-            person_t p;
-            p.id = persons[i]["person_id"].asString();
-            p.name = persons[i]["person_name"].asString();
-            p.tag = persons[i]["tag"].asString();
+            group_t g;
+            g.id = groups[i]["group_id"].asString();
+            g.name = groups[i]["group_name"].asString();
+            g.tag = groups[i]["tag"].asString();
 
-            m_persons.push_back(p);
+            m_groups.push_back(g);
         }
     } 
     catch (std::string ex) 
     {
         std::cout << ex << std::endl;
     }
-    return m_persons;
+    return m_groups;
 }
 
-unsigned int person::size() const 
+unsigned int group::size() const 
 {
-    return m_persons.size();
+    return m_groups.size();
 }
 
-person_t person::get_person(unsigned int index) 
+group_t group::get_group(unsigned int index) 
 {
-    std::vector<person_t>::iterator iter;
+    std::vector<group_t>::iterator iter;
     unsigned int i = 1;
 
-    if (m_persons.size() == 0) 
-        throw std::string("no person");
+    if (m_groups.size() == 0) 
+        throw std::string("no group");
 
-    if (m_persons.size() < index) 
+    if (m_groups.size() < index) 
         throw std::string("index is out of range");
 
-    for (iter = m_persons.begin(); iter != m_persons.end(); iter++, i++) 
+    for (iter = m_groups.begin(); iter != m_groups.end(); iter++, i++) 
     {
         if (i == index) 
             return *iter;
     }
 }
 
-void person::create(std::string name) 
+void group::create(std::string name) 
 {
     try 
     {
         http_get(m_options["SERVER"] +                       
                  m_options["VERSION"] +                      
-                 std::string("/person/create?api_secret=") + 
+                 std::string("/group/create?api_secret=") + 
                  m_options["API_SECRET"] +                   
                  "&api_key=" +                               
                  m_options["API_KEY"] + 
-                 "&person_name=" + 
+                 "&group_name=" + 
                  name);
     } 
     catch (std::string ex) 
@@ -116,28 +116,55 @@ void person::create(std::string name)
     }
 }
 
-void person::create(std::string name, std::string tag) 
+void group::create(std::string name, std::string tag) 
 {
 
 }
 
-void person::remove(std::string name) 
+void group::remove(std::string name) 
 {
     try                                                                         
     {                                                                           
         http_get(m_options["SERVER"] +                                          
                  m_options["VERSION"] +                                         
-                 std::string("/person/delete?api_secret=") +                    
+                 std::string("/group/delete?api_secret=") +                    
                  m_options["API_SECRET"] +                                      
                  "&api_key=" +                                                  
                  m_options["API_KEY"] +                                         
-                 "&person_name=" +                                              
+                 "&group_name=" +                                              
                  name);                                                         
     }                                                                           
     catch (std::string ex)                                                      
     {                                                                           
         std::cout << ex << std::endl;                                           
     }
+}
+
+void group::add_person(std::string group_name, std::string person_name) 
+{                                                                               
+    try                                                                         
+    {                                                                           
+        http_get(m_options["SERVER"] +                                          
+                 m_options["VERSION"] +                                         
+                 std::string("/group/add_person?api_secret=") +                     
+                 m_options["API_SECRET"] +                                      
+                 "&api_key=" +                                                  
+                 m_options["API_KEY"] + 
+                 "&person_name=" + 
+                 person_name +             
+                 "&group_name=" +                                               
+                 group_name);                                                         
+    }                                                                           
+    catch (std::string ex)                                                      
+    {                                                                           
+        std::cout << ex << std::endl;                                           
+    }                                                                           
+}
+
+void group::add_person(std::string group_name, 
+                       std::vector<std::string> person_names) 
+{
+
 }
 
 }
