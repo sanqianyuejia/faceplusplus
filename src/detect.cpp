@@ -19,78 +19,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.        
  */
 
-#ifndef DETECT_H
-#define DETECT_H
-
-#include <string>
-#include <vector>
+#include "detect.h"
 
 namespace fpp {
 
-typedef struct {
-    unsigned int range;
-    unsigned int value;
-} age_t;
+detect::detect() 
+{
 
-typedef enum {
-    MALE, FEMALE
-} GENDER;
+}
 
-typedef struct {
-    float confidence;
-    GENDER value;
-} gender_t;
+detect::~detect() 
+{
 
-typedef struct {
-    float confidence;
-    std::string value;
-} race_t;
+}
 
-typedef struct {
-    age_t age;
-    gender_t gender;
-    race_t race;
-    float smiling;
-} attribute_t;
-
-typedef struct {
-    float x;
-    float y;
-} point_t;
-
-typedef struct {
-    point_t center;
-    point_t eye_left;
-    point_t eye_right;
-    float height;
-    point_t mouth_left;
-    point_t mouth_right;
-    point_t nose;
-    float width;
-} position_t;
-
-typedef struct {
-    attribute_t attribute;
-    std::string face_id;
-    position_t position;
-} face_t;
-
-class detect {
-public:
-    detect();
-    ~detect();
-
-public:
-    std::vector<face_t> get_faces() const;
-
-private:
-    std::vector<face_t> m_faces;
-    unsigned int m_img_height;
-    std::string m_img_id;
-    unsigned int m_img_width;
-    std::string m_session_id;
-    std::string m_url;
-};
+std::vector<face_t> const detect::get_faces() 
+{
+    return m_faces;
+}
 
 }
 
