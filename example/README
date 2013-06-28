@@ -1,0 +1,7 @@
+scons
+
+...building...
+
+vi apikey.cfg
+
+...chang the API_XXX
