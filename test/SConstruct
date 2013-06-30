@@ -3,6 +3,8 @@ env.ParseConfig('pkg-config --cflags --libs libcurl')
 
 env.Program('test_http_get', ['test_http_get.cpp', '../src/http_get.cpp'], CPPPATH=['../src/'])
 
+env.Program('test_ftp_upload', ['test_ftp_upload.cpp', '../src/ftp_upload.cpp'], CPPPATH=['../src/'])
+
 env.Program('test_read_cfg', ['test_read_cfg.cpp', '../src/read_cfg.cpp'], CPPPATH=['../src/'])
 
 env.Program('test_detect', 
