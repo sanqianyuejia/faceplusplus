@@ -1,0 +1,8 @@
+for VS2005, Tool -> Option -> Project and Solution -> VC++ Directory
+
+* Include File
+../../src 
+win32/include 
+
+* Lib File
+win32/lib/Debug
