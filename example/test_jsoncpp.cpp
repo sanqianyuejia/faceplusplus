@@ -25,6 +25,10 @@
 #include <vector>
 #include <json/json.h>
 
+#if WIN32
+#pragma comment(lib, "json_libmtd.lib") 
+#endif
+
 int main(int argc, char* argv[]) 
 {
     std::ifstream jsonfile("test-json");
@@ -35,11 +39,18 @@ int main(int argc, char* argv[])
     Json::Value face_id;
     
     std::getline(jsonfile, buffer, (char)EOF);
-    //std::cout << buffer << std::endl;
+#if WIN32
+	std::cout << buffer << std::endl;
+#endif
     reader.parse(buffer, root, false);
     faces = root["face"];
     std::cout << "faces size: " << faces.size() << std::endl;
     face_id = faces[0]["face_id"];
     std::cout << "face id: " << face_id << std::endl;
+
+#if WIN32
+	system("pause");
+#endif
+
     return 0;
 }

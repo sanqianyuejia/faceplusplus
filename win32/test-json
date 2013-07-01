@@ -1,0 +1,58 @@
+{
+    "face": [
+        {
+            "attribute": {
+                "age": {
+                    "range": 9, 
+                    "value": 29
+                }, 
+                "gender": {
+                    "confidence": 84.4678, 
+                    "value": "Male"
+                }, 
+                "race": {
+                    "confidence": 99.7107, 
+                    "value": "Asian"
+                }, 
+                "smiling": {
+                    "value": 78.9595
+                }
+            }, 
+            "face_id": "1ebc0879ce306490f3e68e3ba9755910", 
+            "position": {
+                "center": {
+                    "x": 56.682028, 
+                    "y": 60.512367
+                }, 
+                "eye_left": {
+                    "x": 46.279032, 
+                    "y": 51.630919
+                }, 
+                "eye_right": {
+                    "x": 75.355991, 
+                    "y": 51.612721
+                }, 
+                "height": 40.812721, 
+                "mouth_left": {
+                    "x": 45.907143, 
+                    "y": 73.70212
+                }, 
+                "mouth_right": {
+                    "x": 68.376267, 
+                    "y": 73.000883
+                }, 
+                "nose": {
+                    "x": 60.278802, 
+                    "y": 64.946113
+                }, 
+                "width": 53.456221
+            }, 
+            "tag": ""
+        }
+    ], 
+    "img_height": 566, 
+    "img_id": "d28fe7f1ebcf118c1dc46311388d98cf", 
+    "img_width": 434, 
+    "session_id": "08e9f42f90d94b04934e77ebdb4981b2", 
+    "url": "http://facerec.b0.upaiyun.com/face/zx.png"
+}
