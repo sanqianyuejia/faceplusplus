@@ -22,16 +22,24 @@
 #include <iostream>
 #include "ftp_upload.h"
 
+#if WIN32
+#pragma comment(lib, "curllib.lib") 
+#endif
+
 int main(int argc, char* argv[]) 
 {
     try 
     {
-        std::cout << fpp::ftp_upload("leslie.jpg", "username", "password") << std::endl;
+        std::cout << fpp::ftp_upload("zx.jpg", "xubin/facerec", "linuxdeepin123") << std::endl;
     } 
     catch (std::string ex) 
     {
         std::cout << ex << std::endl;
     }
+
+#if WIN32
+	system("pause");
+#endif
 
     return 0;
 }
