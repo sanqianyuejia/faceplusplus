@@ -12,5 +12,11 @@
 *.la
 *.a
 
+*.exe
+*.ilk
+*.pdb
+*.ncb
+*.user
+*.suo
 *.dblite
 *.bak

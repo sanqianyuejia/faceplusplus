@@ -22,6 +22,10 @@
 #include <iostream>
 #include "http_get.h"
 
+#if WIN32
+#pragma comment(lib, "curllib.lib") 
+#endif
+
 int main(int argc, char* argv[]) 
 {
     try 
@@ -32,6 +36,10 @@ int main(int argc, char* argv[])
     {
         std::cout << ex << std::endl;
     }
+
+#if WIN32
+	system("pause");
+#endif
 
     return 0;
 }
