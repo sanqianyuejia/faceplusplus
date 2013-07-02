@@ -70,7 +70,36 @@ detect::detect(std::string url, std::string cfgfile)
             face_t face;
             face.attribute = attribute;
             face.face_id = faces[i]["face_id"].asString();
-            
+           
+            position_t position;
+            point_t center;
+            center.x = faces[i]["position"]["center"]["x"].asFloat();
+            center.y = faces[i]["position"]["center"]["y"].asFloat();
+            position.center = center;
+            point_t eye_left;
+            eye_left.x = faces[i]["position"]["eye_left"]["x"].asFloat();
+            eye_left.y = faces[i]["position"]["eye_left"]["y"].asFloat();
+            position.eye_left = eye_left;
+            point_t eye_right;
+            eye_right.x = faces[i]["position"]["eye_right"]["x"].asFloat();
+            eye_right.y = faces[i]["position"]["eye_right"]["y"].asFloat();
+            position.eye_right = eye_right;
+            position.height = faces[i]["position"]["height"].asFloat();
+            point_t mouth_left;                                                   
+            mouth_left.x = faces[i]["position"]["mouth_left"]["x"].asFloat();          
+            mouth_left.y = faces[i]["position"]["mouth_left"]["y"].asFloat();          
+            position.mouth_left = mouth_left;
+            point_t mouth_right;                                                  
+            mouth_right.x = faces[i]["position"]["mouth_right"]["x"].asFloat();        
+            mouth_right.y = faces[i]["position"]["mouth_right"]["y"].asFloat();        
+            position.mouth_right = mouth_right;
+            point_t nose;                                                     
+            nose.x = faces[i]["position"]["nose"]["x"].asFloat();           
+            nose.y = faces[i]["position"]["nose"]["y"].asFloat();           
+            position.nose = nose;
+            position.width = faces[i]["position"]["width"].asFloat();
+            face.position = position;
+
             m_faces.push_back(face);
         }
     } 

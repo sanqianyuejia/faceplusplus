@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
         fpp::face_t face = detect.get_face(1);
         std::cout << "gender: " << face.attribute.gender.value << std::endl;
         std::cout << "face id: " << face.face_id << std::endl;
+        std::cout << face.position.center.x << std::endl;
     } 
     catch (std::string ex) 
     {
