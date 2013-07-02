@@ -23,9 +23,17 @@
 #define RECOGNITION_H
 
 #include <string>
+#include <vector>
 #include "read_cfg.h"
 
 namespace fpp {
+
+typedef struct {
+    float confidence;
+    std::string person_id;
+    std::string person_name;
+    std::string tag;
+} candidate_t;
 
 class recognition {
 public:
@@ -33,10 +41,12 @@ public:
     ~recognition();
 
 public:
-    void identify(std::string url, std::string group_name);
+    std::vector<candidate_t> identify(std::string url, std::string group_name);
+    candidate_t get_confident_candidate(std::vector<candidate_t> candidates);
 
 private:
     std::map<std::string, std::string> m_options;
+    std::vector<candidate_t> m_candidates;
 };
 
 }

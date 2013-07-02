@@ -24,3 +24,12 @@ env.Program('test_person',
             ],                                                                  
             CPPPATH=['../src/', '/usr/include/jsoncpp/'],                       
             LIBS=['libjsoncpp', 'libcurl'])
+
+env.Program('test_recognition',                                                      
+            ['test_recognition.cpp',                                                 
+             '../src/recognition.cpp',                                               
+             '../src/read_cfg.cpp',                                             
+             '../src/http_get.cpp'                                              
+            ],                                                                  
+            CPPPATH=['../src/', '/usr/include/jsoncpp/'],                       
+            LIBS=['libjsoncpp', 'libcurl'])

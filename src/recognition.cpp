@@ -43,7 +43,7 @@ recognition::~recognition()
 
 }
 
-void recognition::identify(std::string url, std::string group_name) 
+std::vector<candidate_t> recognition::identify(std::string url, std::string group_name) 
 {                                                                               
     try                                                                         
     {                                                                           
@@ -57,11 +57,51 @@ void recognition::identify(std::string url, std::string group_name)
                                     m_options["API_KEY"] + 
                                     "&group_name=" + 
                                     group_name);
+        Json::Reader reader;                                                    
+        Json::Value root;                                                       
+        Json::Value faces;                                                      
+        unsigned int i, j;                                                       
+                                                                                
+        reader.parse(json, root, false);                                        
+        faces = root["face"];
+        for (i = 0; i < faces.size(); i++) 
+        {
+            Json::Value candidates = faces[i]["candidate"];
+            for (j = 0; j < candidates.size(); j++) 
+            {
+                candidate_t candidate;
+                candidate.confidence = candidates[j]["confidence"].asFloat();
+                candidate.person_id = candidates[j]["person_id"].asString();
+                candidate.person_name = candidates[j]["person_name"].asString();
+                candidate.tag = candidates[j]["tag"].asString();
+                m_candidates.push_back(candidate);
+            }
+        }
     }                                                                           
     catch (std::string ex)                                                      
     {                                                                           
         std::cout << ex << std::endl;                                           
-    }                                                                           
+    }                        
+
+    return m_candidates;    
+}
+
+candidate_t recognition::get_confident_candidate(std::vector<candidate_t> candidates) 
+{
+    std::vector<candidate_t>::iterator iter;
+    float confidence = 0.0f;
+    candidate_t confident_candidate;
+
+    for (iter = m_candidates.begin(); iter != m_candidates.end(); iter++) 
+    {
+        if (confidence < (*iter).confidence) 
+        {
+            confidence = (*iter).confidence;
+            confident_candidate = *iter;
+        }
+    }
+
+    return confident_candidate;
 }
 
 }

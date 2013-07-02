@@ -20,36 +20,23 @@
  */
 
 #include <iostream>
-#include <string>
-#include <curl/curl.h>
-#include "read_cfg.h"
+#include "recognition.h"
 
 int main(int argc, char* argv[]) 
 {
-    CURL *curl;
-    CURLcode res;
-    std::string url;
-    std::map<std::string, std::string> options = get_options();
- 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (!curl) 
-        return 0;
-
-    url = options["SERVER"] + 
-          std::string("v2/info/get_group_list") + 
-          "?api_secret=" + 
-          options["API_SECRET"] + 
-          "&api_key=" + 
-          options["API_KEY"];
-    std::cout << url << std::endl;
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-    res = curl_easy_perform(curl);
-    
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
+    try 
+    {
+        fpp::recognition recognition("../example/apikey.cfg");
+        std::vector<fpp::candidate_t> candidates = recognition.identify(
+                "http://facerec.b0.upaiyun.com/face/zx.png", 
+                "test3");
+        fpp::candidate_t candidate = recognition.get_confident_candidate(candidates);
+        std::cout << candidate.person_name << std::endl;
+    } 
+    catch (std::string ex) 
+    {
+        std::cout << ex << std::endl;
+    }
 
     return 0;
 }
